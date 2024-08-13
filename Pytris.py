@@ -38,7 +38,7 @@ while running:
         running = False
 
     if game.hasEnded():
-        game.process(False, False, False, False)
+        game.process()
         pygame.display.flip()
         if pressed[pygame.K_SPACE] or pressed[pygame.K_RETURN]:
             init()
@@ -62,10 +62,10 @@ while running:
 
         cnt+=1
         if cnt>speed or left or right or up:
-            game.process(left, right, up, cnt>speed)   
+            game.process(left, right, up, cnt>speed)
+            pygame.display.flip()   
             left = right = up = False
             
-            pygame.display.flip()
             if cnt>speed:
                 cnt = 0
             if rotCnt > 8:

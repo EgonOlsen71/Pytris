@@ -46,7 +46,7 @@ class Trisser:
     def hasEnded(self):
         return GameState.GAME_OVER==self.state
 
-    def process(self, left, right, up, dropDown):
+    def process(self=False, left=False, right=False, up=False, dropDown=False):
         if self.state == GameState.GAME_OVER:
             self.pixeler.renderGameOver()
             return

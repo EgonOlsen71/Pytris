@@ -72,7 +72,8 @@ class PixelRenderer(AbstractRenderer):
         surface = self.font.render(text, True, self.white)
         rect = surface.get_rect()
         rect.topleft = (400, 20)
-        pygame.Surface.fill(self.screen, self.black, rect)
+        fillRect = pygame.Rect(rect.topleft[0]-4, rect.topleft[1]-4, rect.width+8, rect.height+8)
+        pygame.Surface.fill(self.screen, self.black, fillRect)
         self.screen.blit(surface, rect)
 
     def drawDecorations(self):
