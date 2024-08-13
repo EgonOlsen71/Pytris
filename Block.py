@@ -74,20 +74,24 @@ class Block():
             return True
         return False
 
-    def move(self, field, xAdd, yAdd):
-        xPos = self.xPosition + xAdd
-        yPos = self.yPosition + yAdd
-        xMul, yMul = self.getRotationValues(self.rotation)
-
+    def canBePlaced(self, xPos, yPos, xMul, yMul, field):
         for element in self.offsets:
             xPos +=self.getXPosition(xMul, yMul, element)
             yPos +=self.getYPosition(xMul, yMul, element)
             if self.checkForObstacle(xPos, yPos, field):
                 return False
-            
-        self.xPosition += xAdd
-        self.yPosition += yAdd
         return True
+
+    def move(self, field, xAdd, yAdd):
+        xPos = self.xPosition + xAdd
+        yPos = self.yPosition + yAdd
+        xMul, yMul = self.getRotationValues(self.rotation)
+        ok = self.canBePlaced(xPos, yPos, xMul, yMul, field)
+       
+        if ok:    
+            self.xPosition += xAdd
+            self.yPosition += yAdd
+        return ok
 
     def rotate(self, field):
         if not self.rotatable:
@@ -99,13 +103,9 @@ class Block():
             rot = 3
         
         xMul, yMul = self.getRotationValues(rot)
-
-        for element in self.offsets:
-            xPos +=self.getXPosition(xMul, yMul, element)
-            yPos +=self.getYPosition(xMul, yMul, element)
-            if self.checkForObstacle(xPos, yPos, field):
-                return False
-            
-        self.rotation = rot
-        return True
+        ok = self.canBePlaced(xPos, yPos, xMul, yMul, field)
+        
+        if ok:
+            self.rotation = rot
+        return ok
 
