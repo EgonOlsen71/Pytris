@@ -19,7 +19,7 @@ class PixelRenderer(AbstractRenderer):
         self.bigFont = pygame.font.Font(None, 130)
         self.bigFontOutline = pygame.font.Font(None, 132)
         self.screen.fill(self.black)
-        self.backDrop = pygame.image.load("backdrop.png")
+        self.backDrop = pygame.image.load("images/backdrop.png")
         self.screen.blit(self.backDrop, (0, 0))
         self.drawDecorations()
         pygame.Surface.fill(self.screen, self.black, pygame.Rect(self.offsetX-1, self.offsetY-1, self.blockSize*self.width+2, self.blockSize*self.height+2))

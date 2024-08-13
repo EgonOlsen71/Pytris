@@ -3,6 +3,7 @@ from Block import Block
 from ArrayRenderer import ArrayRenderer
 from PixelRenderer import PixelRenderer
 from GameState import GameState
+from SoundPlayer import SoundPlayer
 
 #   @author EgonOlsen71
 #
@@ -23,6 +24,8 @@ class Trisser:
         self.score = 0
         self.pixeler.renderScore(self.score)
         self.state = GameState.RUNNING
+        self.sounds = SoundPlayer()
+        self.sounds.playStartSound()
 
     def removeLines(self, field):
         maxX = len(field)
@@ -57,6 +60,8 @@ class Trisser:
             moved = self.currentBlock.move(self.renderer.field, 0, 0)
             if not moved:
                 self.currentBlock = None
+                if self.state != GameState.GAME_OVER:
+                    self.sounds.playGameOverSound()
                 self.state = GameState.GAME_OVER
         else:
             self.renderer.derender(self.currentBlock)
@@ -78,9 +83,11 @@ class Trisser:
             self.renderer.render(self.currentBlock)
             self.pixeler.render(self.currentBlock)
             if dropDown and not moved:
+                self.sounds.playDropSound()
                 modified = self.removeLines(self.renderer.field)
                 self.currentBlock = None
                 if modified:
+                    self.sounds.playRumbleSound()
                     self.pixeler.renderField(self.renderer.field)
                     self.pixeler.renderScore(self.score)
             
