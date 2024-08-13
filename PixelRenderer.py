@@ -21,6 +21,7 @@ class PixelRenderer(AbstractRenderer):
         self.screen.fill(self.black)
         self.backDrop = pygame.image.load("backdrop.png")
         self.screen.blit(self.backDrop, (0, 0))
+        self.drawDecorations()
         pygame.Surface.fill(self.screen, self.black, pygame.Rect(self.offsetX-1, self.offsetY-1, self.blockSize*self.width+2, self.blockSize*self.height+2))
 
     def render(self, block):
@@ -30,7 +31,6 @@ class PixelRenderer(AbstractRenderer):
         self.internalRender(block, False)
 
     def internalRender(self, block, plot=True):
-        self.drawDecorations()
         pos = block.getAbsolutePositions()
         color = block.color if plot else self.black
         for element in pos:
