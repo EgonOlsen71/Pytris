@@ -2,6 +2,7 @@ import random
 from Block import Block
 from ArrayRenderer import ArrayRenderer
 from PixelRenderer import PixelRenderer
+from GameState import GameState
 
 #   @author EgonOlsen71
 #
@@ -17,10 +18,11 @@ class Trisser:
                            Block((-1,-1), (1,0), (0,1), (1,0), 6))
         
         self.renderer = ArrayRenderer(10, 23)
-        self.pixeler = PixelRenderer(screen, 20, 100, 20, 10, 23)
+        self.pixeler = PixelRenderer(screen, 24, 100, 20, 10, 23)
         self.currentBlock = None
         self.score = 0
         self.pixeler.renderScore(self.score)
+        self.state = GameState.RUNNING
 
     def removeLines(self, field):
         maxX = len(field)
@@ -41,14 +43,21 @@ class Trisser:
         return modified
 
 
+    def hasEnded(self):
+        return GameState.GAME_OVER==self.state
+
     def process(self, left, right, up, dropDown):
+        if self.state == GameState.GAME_OVER:
+            self.pixeler.renderGameOver()
+            return
+        
         if self.currentBlock==None:
             index = random.randint(0, len(self.blueprints)-1)
             self.currentBlock = self.blueprints[index].clone()
             moved = self.currentBlock.move(self.renderer.field, 0, 0)
             if not moved:
                 self.currentBlock = None
-                # todo handle end game...
+                self.state = GameState.GAME_OVER
         else:
             self.renderer.derender(self.currentBlock)
             self.pixeler.derender(self.currentBlock)

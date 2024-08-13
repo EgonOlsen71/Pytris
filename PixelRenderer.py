@@ -14,7 +14,11 @@ class PixelRenderer(AbstractRenderer):
         self.height = height
         self.black = pygame.Color(0,0,0)
         self.white = pygame.Color(255,255,255)
-        self.font = pygame.font.Font(None, 30)
+        self.red = pygame.Color(255,80,80)
+        self.font = pygame.font.Font(None, 50)
+        self.bigFont = pygame.font.Font(None, 130)
+        self.bigFontOutline = pygame.font.Font(None, 132)
+        self.screen.fill(self.black)
 
     def render(self, block):
         self.internalRender(block)
@@ -30,6 +34,21 @@ class PixelRenderer(AbstractRenderer):
             xPos = element[0]*self.blockSize + self.offsetX
             yPos = element[1]*self.blockSize + self.offsetY
             pygame.Surface.fill(self.screen, color, pygame.Rect(xPos, yPos, self.blockSize, self.blockSize))
+
+    def renderGameOver(self):
+        text = "GAME OVER!"
+        info = pygame.display.Info()
+        width = info.current_w
+        height = info.current_h
+        surface = self.bigFontOutline.render(text, True, self.white)
+        rect = surface.get_rect()
+        rect.topleft = (width/2-rect.centerx-1, height/2-rect.centery)
+        self.screen.blit(surface, rect)
+
+        surface = self.bigFont.render(text, True, self.red)
+        rect = surface.get_rect()
+        rect.topleft = (width/2-rect.centerx, height/2-rect.centery)
+        self.screen.blit(surface, rect)
 
     def renderField(self, field):
         maxX = len(field)
@@ -49,7 +68,7 @@ class PixelRenderer(AbstractRenderer):
         text = "Score: "+str(score)
         surface = self.font.render(text, True, self.white)
         rect = surface.get_rect()
-        rect.topleft = (600, 50)
+        rect.topleft = (400, 20)
         pygame.Surface.fill(self.screen, self.black, rect)
         self.screen.blit(surface, rect)
 

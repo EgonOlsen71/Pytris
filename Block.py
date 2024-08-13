@@ -7,7 +7,7 @@ class Block():
 
     def __init__(self, first, second, third, forth, color, rotatable=True):
         self.offsets=[first, second, third, forth]
-        self.xPosition=3
+        self.xPosition=4
         self.yPosition=1
         self.rotation=0
         self.rotatable = rotatable
