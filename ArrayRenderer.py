@@ -16,4 +16,4 @@ class ArrayRenderer(AbstractRenderer):
     def internalRender(self, block, plot=True):
         pos = block.getAbsolutePositions()
         for element in pos:
-            self.field[element[0]][element[1]]=True if plot else None
+            self.field[element[0]][element[1]]=block.color if plot else None

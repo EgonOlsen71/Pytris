@@ -5,14 +5,27 @@ import pygame
 #
 class Block():
 
-    def __init__(self, second, third, forth, rotatable=True):
-        self.offsets=[(0,0), second, third, forth]
+    def __init__(self, first, second, third, forth, color, rotatable=True):
+        self.offsets=[first, second, third, forth]
         self.xPosition=3
         self.yPosition=1
         self.rotation=0
         self.rotatable = rotatable
-        self.color = pygame.Color(255,255,255)
-       
+        match color:
+            case 0:
+                self.color = pygame.Color(255,255,255)
+            case 1:
+                self.color = pygame.Color(255,0,0)
+            case 2:
+                self.color = pygame.Color(0,255,0)    
+            case 3:
+                self.color = pygame.Color(0,0,255) 
+            case 4:
+                self.color = pygame.Color(255,255,0)
+            case 5:
+                self.color = pygame.Color(255,0,255)
+            case 6:
+                self.color = pygame.Color(0,255,255)
 
     def clone(self):
         return copy.deepcopy(self)
@@ -50,7 +63,7 @@ class Block():
         return xMul * element[0] + yMul * element[1]
     
     def getYPosition(self, xMul, yMul, element):
-        return xMul * element[1] + yMul * element[0]
+        return xMul * element[1] - yMul * element[0]
 
     def checkForObstacle(self, xPos, yPos, field):
         if xPos<0 or xPos>=len(field):
@@ -81,10 +94,9 @@ class Block():
             return False
         xPos = self.xPosition
         yPos = self.yPosition
-        rot = self.rotation
-        rot +=1
-        if rot > 3:
-            rot = 0
+        rot = self.rotation-1
+        if rot < 0:
+            rot = 3
         
         xMul, yMul = self.getRotationValues(rot)
 
