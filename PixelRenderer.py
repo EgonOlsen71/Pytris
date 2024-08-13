@@ -14,6 +14,7 @@ class PixelRenderer(AbstractRenderer):
         self.height = height
         self.black = pygame.Color(0,0,0)
         self.white = pygame.Color(255,255,255)
+        self.font = pygame.font.Font(None, 30)
 
     def render(self, block):
         self.internalRender(block)
@@ -38,11 +39,19 @@ class PixelRenderer(AbstractRenderer):
             xPos = self.offsetX
             for x in range(0, maxX):
                 color = field[x][y]
-                if color == None:
+                if not color:
                     color = self.black
                 pygame.Surface.fill(self.screen, color, pygame.Rect(xPos, yPos, self.blockSize, self.blockSize))
                 xPos += self.blockSize
             yPos += self.blockSize
+
+    def renderScore(self, score):
+        text = "Score: "+str(score)
+        surface = self.font.render(text, True, self.white)
+        rect = surface.get_rect()
+        rect.topleft = (600, 50)
+        pygame.Surface.fill(self.screen, self.black, rect)
+        self.screen.blit(surface, rect)
 
     def drawDecorations(self):
         pygame.draw.rect(self.screen, self.white, pygame.Rect(self.offsetX-2, self.offsetY-2, self.blockSize*self.width+4, self.blockSize*self.height+4), 1)

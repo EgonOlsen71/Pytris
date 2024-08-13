@@ -19,11 +19,14 @@ class Trisser:
         self.renderer = ArrayRenderer(10, 23)
         self.pixeler = PixelRenderer(screen, 20, 100, 20, 10, 23)
         self.currentBlock = None
+        self.score = 0
+        self.pixeler.renderScore(self.score)
 
     def removeLines(self, field):
         maxX = len(field)
         maxY = len(field[0])
         modified = False
+        scoreMul = 1
         for y in range(0, maxY):
             val = 0
             for x in range(0, maxX):
@@ -33,6 +36,8 @@ class Trisser:
                     for x2 in range(0, maxX):
                         field[x2][y2+1] = field[x2][y2]
                         modified = True
+                self.score += 100*scoreMul
+                scoreMul+=1
         return modified
 
 
@@ -68,4 +73,5 @@ class Trisser:
                 self.currentBlock = None
                 if modified:
                     self.pixeler.renderField(self.renderer.field)
+                    self.pixeler.renderScore(self.score)
             
