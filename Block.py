@@ -1,6 +1,6 @@
 import copy
 import pygame
-
+#   A block
 #   @author EgonOlsen71
 #
 class Block():

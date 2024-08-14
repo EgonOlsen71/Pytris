@@ -1,5 +1,11 @@
 # Pytris
 
+A simple Tetris-like game for Python. Requires pygame and a Python interpreter version 3.10 or higher.
+This implementation hasn't really been optimized, but for such a simple game, it should be fast enough.
+Run Pytris.py to start it
+
+Sound credits:
+
 
 Drop.wav by Theditor -- https://freesound.org/s/115363/ -- License: Attribution 4.0
 

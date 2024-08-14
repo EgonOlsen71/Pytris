@@ -3,9 +3,9 @@ import time
 from Trisser import Trisser
 from SoundPlayer import SoundPlayer
 
+#   The main game 
 #   @author EgonOlsen71
 #
-
 pygame.init()
 sounds = SoundPlayer()
 screen = pygame.display.set_mode((800, 600))

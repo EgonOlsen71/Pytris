@@ -1,5 +1,5 @@
 from enum import Enum
-
+#   Enum for the different states of the game
 #   @author EgonOlsen71
 #
 class GameState(Enum):

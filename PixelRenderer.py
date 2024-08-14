@@ -1,6 +1,7 @@
 from AbstractRenderer import AbstractRenderer
 import pygame
-
+#   Renderer implementation that renders the screen. In addition to what an AbstractRenderer
+#   requires, this also contains functions to render other screen elements, not just blocks.
 #   @author EgonOlsen71
 #
 class PixelRenderer(AbstractRenderer):

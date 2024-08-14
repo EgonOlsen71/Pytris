@@ -1,5 +1,6 @@
 import pygame
 
+#   A simple sound player
 #   @author EgonOlsen71
 #
 

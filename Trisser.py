@@ -4,6 +4,7 @@ from ArrayRenderer import ArrayRenderer
 from PixelRenderer import PixelRenderer
 from GameState import GameState
 
+#   The main game class
 #   @author EgonOlsen71
 #
 class Trisser:

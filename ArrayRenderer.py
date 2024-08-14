@@ -1,5 +1,6 @@
 from AbstractRenderer import AbstractRenderer
 
+#   Renderer implementation that renders a block into a playfield array.
 #   @author EgonOlsen71
 #
 class ArrayRenderer(AbstractRenderer):
