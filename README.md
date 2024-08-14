@@ -6,7 +6,7 @@ This implementation hasn't really been optimized, but for such a simple game, it
 Run Pytris.py to start it
 
 
-<img src="Pytris.jpg>
+<img src="https://raw.githubusercontent.com/EgonOlsen71/Pytris/main/Pytris.jpg">
 
 
 Sound credits:
