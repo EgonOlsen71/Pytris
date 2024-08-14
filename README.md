@@ -3,6 +3,8 @@
 A simple Tetris-like game for Python. Requires pygame and a Python interpreter version 3.10 or higher.
 This implementation hasn't really been optimized, but for such a simple game, it should be fast enough.
 
+It has been written as an exercise while looking into Python.
+
 Run Pytris.py to start it
 
 
