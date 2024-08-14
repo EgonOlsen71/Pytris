@@ -83,9 +83,9 @@ class PixelRenderer(AbstractRenderer):
         maxX = len(field)
         maxY = len(field[0])
         yPos = self.offsetY
-        for y in range(0, maxY):
+        for y in range(maxY):
             xPos = self.offsetX
-            for x in range(0, maxX):
+            for x in range(maxX):
                 color = field[x][y]
                 if not color:
                     color = self.black

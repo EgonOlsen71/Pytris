@@ -24,9 +24,9 @@ class ArrayRenderer(AbstractRenderer):
         maxY = len(self.field[0])
         score = 0
         scoreMul = 1
-        for y in range(0, maxY):
+        for y in range(maxY):
             val = 0
-            for x in range(0, maxX):
+            for x in range(maxX):
                 val += 1 if self.field[x][y] else 0
             if val==maxX:
                 for x2 in range(maxX):
