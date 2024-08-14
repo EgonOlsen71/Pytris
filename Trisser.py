@@ -24,24 +24,6 @@ class Trisser:
         self.state = GameState.INITIAL
         self.sounds = sounds
 
-    def removeLines(self, field):
-        maxX = len(field)
-        maxY = len(field[0])
-        modified = False
-        scoreMul = 1
-        for y in range(0, maxY):
-            val = 0
-            for x in range(0, maxX):
-                val += 1 if field[x][y] else 0
-            if val==maxX:
-                for y2 in range(y-1, 0, -1):
-                    for x2 in range(0, maxX):
-                        field[x2][y2+1] = field[x2][y2]
-                        modified = True
-                self.score += 100*scoreMul
-                scoreMul+=1
-        return modified
-
     def getSpeed(self):
         return max(4, 25-self.score//1500)
 
@@ -96,7 +78,9 @@ class Trisser:
             self.pixeler.render(self.currentBlock)
             if dropDown and not moved:
                 self.sounds.playDropSound()
-                modified = self.removeLines(self.renderer.field)
+                tmpScore = self.renderer.removeLines()
+                self.score += tmpScore
+                modified = tmpScore>0
                 self.currentBlock = None
                 if modified:
                     self.sounds.playRumbleSound()
