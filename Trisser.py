@@ -3,13 +3,12 @@ from Block import Block
 from ArrayRenderer import ArrayRenderer
 from PixelRenderer import PixelRenderer
 from GameState import GameState
-from SoundPlayer import SoundPlayer
 
 #   @author EgonOlsen71
 #
 class Trisser:
-    
-    def __init__(self, screen):
+
+    def __init__(self, screen, sounds):
         self.blueprints = (Block((-1,0), (1,0), (1,0), (1,0) , 0), 
                            Block((-1,0), (0,-1), (1,1), (1,0), 1), 
                            Block((-1,0), (1,0), (1,0), (0,-1), 2),
@@ -22,10 +21,8 @@ class Trisser:
         self.pixeler = PixelRenderer(screen, 24, 100, 20, 10, 23)
         self.currentBlock = None
         self.score = 0
-        self.pixeler.renderScore(self.score)
-        self.state = GameState.RUNNING
-        self.sounds = SoundPlayer()
-        self.sounds.playStartSound()
+        self.state = GameState.INITIAL
+        self.sounds = sounds
 
     def removeLines(self, field):
         maxX = len(field)
@@ -45,13 +42,28 @@ class Trisser:
                 scoreMul+=1
         return modified
 
+    def getSpeed(self):
+        return max(4, 25-self.score//1500)
 
     def hasEnded(self):
         return GameState.GAME_OVER==self.state
+    
+    def startGame(self):
+        self.state = GameState.RUNNING
+        self.pixeler.renderBackdrop()
+        self.pixeler.renderScore(self.score)
+        self.sounds.playStartSound()
+
+    def isInitial(self):
+        return GameState.INITIAL==self.state
 
     def process(self=False, left=False, right=False, up=False, dropDown=False):
         if self.state == GameState.GAME_OVER:
             self.pixeler.renderGameOver()
+            return
+        
+        if self.state == GameState.INITIAL:
+            self.pixeler.renderIntro()
             return
         
         if self.currentBlock==None:

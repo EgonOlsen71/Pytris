@@ -20,15 +20,18 @@ class PixelRenderer(AbstractRenderer):
         self.bigFontOutline = pygame.font.Font(None, 132)
         self.screen.fill(self.black)
         self.backDrop = pygame.image.load("images/backdrop.png")
-        self.screen.blit(self.backDrop, (0, 0))
-        self.drawDecorations()
-        pygame.Surface.fill(self.screen, self.black, pygame.Rect(self.offsetX-1, self.offsetY-1, self.blockSize*self.width+2, self.blockSize*self.height+2))
-
+        self.renderBackdrop()
+        
     def render(self, block):
         self.internalRender(block)
 
     def derender(self, block):
         self.internalRender(block, False)
+
+    def renderBackdrop(self):
+        self.screen.blit(self.backDrop, (0, 0))
+        self.drawDecorations()
+        pygame.Surface.fill(self.screen, self.black, pygame.Rect(self.offsetX-1, self.offsetY-1, self.blockSize*self.width+2, self.blockSize*self.height+2))
 
     def internalRender(self, block, plot=True):
         pos = block.getAbsolutePositions()
@@ -36,7 +39,20 @@ class PixelRenderer(AbstractRenderer):
         for element in pos:
             xPos = element[0]*self.blockSize + self.offsetX
             yPos = element[1]*self.blockSize + self.offsetY
-            pygame.Surface.fill(self.screen, color, pygame.Rect(xPos, yPos, self.blockSize, self.blockSize))
+            pygame.Surface.fill(self.screen, color, pygame.Rect(xPos, yPos, self.blockSize-1, self.blockSize-1))
+
+    def renderIntro(self):
+        info = pygame.display.Info()
+        width = info.current_w
+        height = info.current_h
+        texts = ("PYTRIS by EgonOlsen71", "CRSR to move/rotate/drop", "", "Press SPACE to start!")
+        line = 0
+        for text in texts:
+            surface = self.font.render(text, True, self.white, self.black)
+            rect = surface.get_rect()
+            rect.topleft = (width/2-rect.centerx-1, height/3-rect.centery+line*35)
+            line +=1
+            self.screen.blit(surface, rect)
 
     def renderGameOver(self):
         text = "GAME OVER!"
@@ -63,7 +79,7 @@ class PixelRenderer(AbstractRenderer):
                 color = field[x][y]
                 if not color:
                     color = self.black
-                pygame.Surface.fill(self.screen, color, pygame.Rect(xPos, yPos, self.blockSize, self.blockSize))
+                pygame.Surface.fill(self.screen, color, pygame.Rect(xPos, yPos, self.blockSize-1, self.blockSize-1))
                 xPos += self.blockSize
             yPos += self.blockSize
 

@@ -1,10 +1,13 @@
 import pygame
+import time
 from Trisser import Trisser
+from SoundPlayer import SoundPlayer
 
 #   @author EgonOlsen71
 #
 
 pygame.init()
+sounds = SoundPlayer()
 screen = pygame.display.set_mode((800, 600))
 pygame.display.set_caption("Pytris")
 clock = pygame.time.Clock()
@@ -20,15 +23,32 @@ left = right = up = False
 
 def init():
     global speed, cnt, rotCnt, left, right, up, game
-    game = Trisser(screen)
-    speed = 10
+    game = Trisser(screen, sounds)
+    speed = game.getSpeed()
     cnt = 0
     rotCnt = 0
     left = right = up = False    
 
+def waitingDone():
+    game.process()
+    pygame.display.flip()
+    pygame.event.pump()
+    pressy = pygame.key.get_pressed()
+    return pressy[pygame.K_SPACE] or pressy[pygame.K_RETURN]
+
+def waitForKeyReleased():
+    while True:
+        pygame.event.pump()
+        pressy = pygame.key.get_pressed()
+        if not (pressy[pygame.K_SPACE] or pressy[pygame.K_RETURN]):
+            break
+        time.sleep(0.16)
+
 init()
 
 while running:
+
+    speed = game.getSpeed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -38,13 +58,16 @@ while running:
         running = False
 
     if game.hasEnded():
-        game.process()
-        pygame.display.flip()
-        if pressed[pygame.K_SPACE] or pressed[pygame.K_RETURN]:
+        if waitingDone():
+            waitForKeyReleased()
             init()
+    elif game.isInitial():
+       if waitingDone():
+            waitForKeyReleased()
+            game.startGame()
     else:
-        if pressed[pygame.K_DOWN] and cnt<speed // 2:
-            cnt = speed // 2 
+        if pressed[pygame.K_DOWN] and cnt<speed-2:
+            cnt = max(2, speed-2)
 
         left = left or pressed[pygame.K_LEFT]
         right = right or pressed[pygame.K_RIGHT]
