@@ -12,6 +12,8 @@ class PixelRenderer(AbstractRenderer):
         self.offsetY = offsetY
         self.width = width
         self.height = height
+        self.dynColorDark = pygame.Color(0,0,0)
+        self.dynColorLight = pygame.Color(0,0,0)
         self.black = pygame.Color(0,0,0)
         self.white = pygame.Color(255,255,255)
         self.red = pygame.Color(255,80,80)
@@ -39,7 +41,7 @@ class PixelRenderer(AbstractRenderer):
         for element in pos:
             xPos = element[0]*self.blockSize + self.offsetX
             yPos = element[1]*self.blockSize + self.offsetY
-            pygame.Surface.fill(self.screen, color, pygame.Rect(xPos, yPos, self.blockSize-1, self.blockSize-1))
+            self.renderBlock(xPos, yPos, color)
 
     def renderIntro(self):
         info = pygame.display.Info()
@@ -53,6 +55,13 @@ class PixelRenderer(AbstractRenderer):
             rect.topleft = (width/2-rect.centerx-1, height/3-rect.centery+line*35)
             line +=1
             self.screen.blit(surface, rect)
+
+    def renderBlock(self, xPos, yPos, color):
+        self.dynColorLight.update(int(min(255, color.r*1.3)), int(min(255, color.g*1.3)), int(min(255, color.b*1.3)))
+        self.dynColorDark.update(int(min(255, color.r*0.7)), int(min(255, color.g*0.7)), int(min(255, color.b*0.7)))
+        pygame.Surface.fill(self.screen, color, pygame.Rect(xPos+1, yPos+1, self.blockSize-2, self.blockSize-2))
+        pygame.draw.lines(self.screen, self.dynColorLight, False, [(xPos, yPos+self.blockSize-1), (xPos, yPos),(xPos+self.blockSize-1, yPos)])
+        pygame.draw.lines(self.screen, self.dynColorDark, False, [(xPos+self.blockSize-1, yPos), (xPos+self.blockSize-1, yPos+self.blockSize-1), (xPos, yPos+self.blockSize-1)])
 
     def renderGameOver(self):
         text = "GAME OVER!"
@@ -79,7 +88,7 @@ class PixelRenderer(AbstractRenderer):
                 color = field[x][y]
                 if not color:
                     color = self.black
-                pygame.Surface.fill(self.screen, color, pygame.Rect(xPos, yPos, self.blockSize-1, self.blockSize-1))
+                self.renderBlock(xPos, yPos, color)
                 xPos += self.blockSize
             yPos += self.blockSize
 

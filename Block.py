@@ -11,21 +11,22 @@ class Block():
         self.yPosition=1
         self.rotation=0
         self.rotatable = rotatable
+        intensity = 180
         match color:
             case 0:
-                self.color = pygame.Color(255,255,255)
+                self.color = pygame.Color(intensity,intensity,intensity)
             case 1:
-                self.color = pygame.Color(255,0,0)
+                self.color = pygame.Color(intensity,0,0)
             case 2:
-                self.color = pygame.Color(0,255,0)    
+                self.color = pygame.Color(0,intensity,0)    
             case 3:
-                self.color = pygame.Color(0,0,255) 
+                self.color = pygame.Color(0,0,intensity) 
             case 4:
-                self.color = pygame.Color(255,255,0)
+                self.color = pygame.Color(intensity,intensity,0)
             case 5:
-                self.color = pygame.Color(255,0,255)
+                self.color = pygame.Color(intensity,0,intensity)
             case 6:
-                self.color = pygame.Color(0,255,255)
+                self.color = pygame.Color(0,intensity,intensity)
 
     def clone(self):
         return copy.deepcopy(self)
